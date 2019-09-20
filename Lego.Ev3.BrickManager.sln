@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lego.Ev3.BrickManager", "Lego.Ev3.BrickManager\Lego.Ev3.BrickManager.csproj", "{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37D2ED7D-88EA-4001-8670-C548ACBCBCFD}
+	EndGlobalSection
+EndGlobal
