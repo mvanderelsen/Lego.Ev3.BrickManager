@@ -1,6 +1,7 @@
 ﻿using Lego.Ev3.Framework;
 using Lego.Ev3.Framework.Core;
 using System.Drawing;
+using System.Media;
 using System.Windows.Forms;
 
 namespace Lego.Ev3.BrickManager
@@ -144,6 +145,11 @@ namespace Lego.Ev3.BrickManager
         {
             ListViewHitTestInfo info = listView.HitTest(e.Location);
             Invoke(info.Item, ActionType.SELECT);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                ShowContextMenu(info.Item);
+            }
         }
 
         private void ListView_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -169,6 +175,92 @@ namespace Lego.Ev3.BrickManager
                     FileAction?.Invoke(this, (File)item.Tag, actionType);
                 }
             }
+        }
+
+        private void ShowContextMenu(ListViewItem item)
+        {
+            if (item != null && item.Tag != null)
+            {
+                if (item.Tag is Directory)
+                {
+                    ShowContextMenu((Entry)(Directory)item.Tag);
+                }
+                else if (item.Tag is File)
+                {
+                    ShowContextMenu((Entry)(File)item.Tag);
+                }
+            }
+        }
+
+        private void ShowContextMenu(Entry entry)
+        {
+            ClearContextMenu();
+
+            downloadToolStripMenuItem.Visible = entry.IsDownloadable;
+            playToolStripMenuItem.Visible = entry.IsPlayable;
+
+
+            contextMenuStrip.Tag = entry.Type;
+            contextMenuStrip.Show(Cursor.Position);
+        }
+
+        private void ClearContextMenu()
+        {
+            downloadToolStripMenuItem.Visible = false;
+            renameToolStripMenuItem.Visible = false;
+            moveToolStripMenuItem.Visible = false;
+            playToolStripMenuItem.Visible = false;
+            newToolStripMenuItem.Visible = false;
+            uploadToolStripMenuItem.Visible = false;
+            toolStripSeparator.Visible = false;
+            deleteToolStripMenuItem.Visible = false;
+        }
+
+
+        private File SelectedFile { get { return ((ExplorerWindow)Parent).CURRENT_FILE; } }
+        private Directory SelectedDirectory { get { return ((ExplorerWindow)Parent).CURRENT_DIRECTORY; } }
+
+        private void InvokeContextMenu(ActionType actionType)
+        {
+            switch ((EntryType)contextMenuStrip.Tag)
+            {
+                case EntryType.FILE:
+                    {
+                        FileAction?.Invoke(this, SelectedFile, actionType);
+                        break;
+                    }
+                case EntryType.DIRECTORY:
+                    {
+                        DirectoryAction?.Invoke(this, SelectedDirectory, actionType);
+                        break;
+                    }
+            }
+        }
+
+
+        private async void PlayOnComputerToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            byte[] data = await SelectedFile.Download();
+            byte[] wav = await FileConverter.RSFtoWAV(data);
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                ms.Write(wav, 0, wav.Length);
+                ms.Position = 0;
+                using (SoundPlayer player = new SoundPlayer(ms))
+                {
+                    player.PlaySync();
+                }
+            }
+        }
+
+        private void PlayOnBrickToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            Manager.Brick.Sound.Play((SoundFile)SelectedFile, 50);
+        }
+
+        private void DownloadToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            InvokeContextMenu(ActionType.DOWNLOAD);
         }
     }
 }

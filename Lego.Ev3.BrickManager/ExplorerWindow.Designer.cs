@@ -34,6 +34,9 @@
             this.folderTree = new Lego.Ev3.BrickManager.FolderTree();
             this.statusBar = new Lego.Ev3.BrickManager.StatusBar();
             this.navigationBar = new Lego.Ev3.BrickManager.NavigationBar();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // splitter
@@ -49,14 +52,14 @@
             this.directoryContentPane.Dock = System.Windows.Forms.DockStyle.Fill;
             this.directoryContentPane.Location = new System.Drawing.Point(189, 45);
             this.directoryContentPane.Name = "directoryContentPane";
-            this.directoryContentPane.Size = new System.Drawing.Size(667, 506);
+            this.directoryContentPane.Size = new System.Drawing.Size(697, 506);
             this.directoryContentPane.TabIndex = 2;
             // 
             // previewPane
             // 
             this.previewPane.BackColor = System.Drawing.SystemColors.Window;
             this.previewPane.Dock = System.Windows.Forms.DockStyle.Right;
-            this.previewPane.Location = new System.Drawing.Point(886, 0);
+            this.previewPane.Location = new System.Drawing.Point(886, 45);
             this.previewPane.Name = "previewPane";
             this.previewPane.Size = new System.Drawing.Size(174, 506);
             this.previewPane.TabIndex = 4;
@@ -86,6 +89,10 @@
             this.navigationBar.Size = new System.Drawing.Size(1060, 45);
             this.navigationBar.TabIndex = 5;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // ExplorerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,5 +117,8 @@
         private PreviewPane previewPane;
         private StatusBar statusBar;
         private NavigationBar navigationBar;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

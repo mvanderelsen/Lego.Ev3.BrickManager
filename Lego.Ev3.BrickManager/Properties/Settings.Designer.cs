@@ -34,5 +34,17 @@ namespace Lego.Ev3.BrickManager.Properties {
                 this["Mode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalMachinePath {
+            get {
+                return ((string)(this["LocalMachinePath"]));
+            }
+            set {
+                this["LocalMachinePath"] = value;
+            }
+        }
     }
 }
