@@ -29,7 +29,6 @@ namespace Lego.Ev3.BrickManager
         public async Task Initialize(Directory root)
         {
             await BuildTree(root);
-            //RaiseTask((Directory)root.Tag, TaskType.OPEN);
         }
 
         public void InitView()
@@ -58,7 +57,6 @@ namespace Lego.Ev3.BrickManager
                         break;
                     }
                 case Mode.ADVANCED:
-                case Mode.EXPERT:
                     {
                         await AdvancedTree(root);
                         break;
@@ -142,13 +140,7 @@ namespace Lego.Ev3.BrickManager
                 {
                     DirectoryAction?.Invoke(this, (Directory)info.Node.Tag, ActionType.OPEN);
                 }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    tree.SelectedNode = info.Node;
-                    //ShowContextMenu((Directory)info.Node.Tag);
-                }
             }
         }
-       
     }
 }

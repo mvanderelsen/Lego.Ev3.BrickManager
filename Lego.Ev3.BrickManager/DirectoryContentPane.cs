@@ -144,8 +144,7 @@ namespace Lego.Ev3.BrickManager
         private void ListView_MouseDown(object sender, MouseEventArgs e)
         {
             ListViewHitTestInfo info = listView.HitTest(e.Location);
-            Invoke(info.Item, ActionType.SELECT);
-
+            if (info.Item != null) Invoke(info.Item, ActionType.SELECT);
             if (e.Button == MouseButtons.Right)
             {
                 ShowContextMenu(info.Item);
@@ -183,12 +182,62 @@ namespace Lego.Ev3.BrickManager
             {
                 if (item.Tag is Directory)
                 {
-                    ShowContextMenu((Entry)(Directory)item.Tag);
+                    ShowContextMenu((Entry)SelectedDirectory);
                 }
                 else if (item.Tag is File)
                 {
-                    ShowContextMenu((Entry)(File)item.Tag);
+                    ShowContextMenu((Entry)SelectedFile);
                 }
+            }
+            else
+            {
+                ClearContextMenu();
+
+                if (AllowNewOrUpload())
+                {
+                    contextMenuStrip.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private bool AllowNewOrUpload()
+        {
+            switch (UserSettings.Mode)
+            {
+                case Mode.BASIC:
+                    {
+                        switch (SelectedDirectory.Path)
+                        {
+                            case FileExplorer.ROOT_PATH: return false;
+                            case FileExplorer.SDCARD_PATH:
+                            case FileExplorer.PROJECTS_PATH:
+                                {
+                                    uploadFileToolStripMenuItem.Visible = false;
+                                    newFileToolStripMenuItem.Visible = false;
+                                    newToolStripMenuItem.Visible = true;
+                                    uploadToolStripMenuItem.Visible = true;
+                                    return true;
+                                }
+                            default:
+                                {
+                                    if (SelectedDirectory.Path.StartsWith(FileExplorer.PROJECTS_PATH))
+                                    {
+                                        uploadDirectoryToolStripMenuItem.Visible = false;
+                                        newDirectoryToolStripMenuItem.Visible = false;
+                                        newToolStripMenuItem.Visible = true;
+                                        uploadToolStripMenuItem.Visible = true;
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                        }
+                    }
+                default:
+                    {
+                        newToolStripMenuItem.Visible = true;
+                        uploadToolStripMenuItem.Visible = true;
+                        return true;
+                    }
             }
         }
 
@@ -196,7 +245,7 @@ namespace Lego.Ev3.BrickManager
         {
             ClearContextMenu();
 
-            downloadToolStripMenuItem.Visible = entry.IsDownloadable;
+            downloadToolStripMenuItem.Visible = true;
             playToolStripMenuItem.Visible = entry.IsPlayable;
 
 
@@ -214,11 +263,23 @@ namespace Lego.Ev3.BrickManager
             uploadToolStripMenuItem.Visible = false;
             toolStripSeparator.Visible = false;
             deleteToolStripMenuItem.Visible = false;
+
+            uploadDirectoryToolStripMenuItem.Visible = true;
+            uploadFileToolStripMenuItem.Visible = true;
+            newDirectoryToolStripMenuItem.Visible = true;
+            newFileToolStripMenuItem.Visible = true;
         }
 
 
-        private File SelectedFile { get { return ((ExplorerWindow)Parent).CURRENT_FILE; } }
-        private Directory SelectedDirectory { get { return ((ExplorerWindow)Parent).CURRENT_DIRECTORY; } }
+        private File SelectedFile
+        {
+            get { return ((ExplorerWindow)Parent).SELECTED_FILE; }
+        }
+
+        private Directory SelectedDirectory
+        {
+            get { return ((ExplorerWindow)Parent).SELECTED_DIRECTORY; }
+        }
 
         private void InvokeContextMenu(ActionType actionType)
         {
@@ -262,5 +323,6 @@ namespace Lego.Ev3.BrickManager
         {
             InvokeContextMenu(ActionType.DOWNLOAD);
         }
+
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             this.tree = new System.Windows.Forms.TreeView();
+            this.SuspendLayout();
             // 
             // tree
             // 
@@ -50,6 +50,7 @@
             this.Name = "FolderTree";
             this.Size = new System.Drawing.Size(235, 361);
             this.ResumeLayout(false);
+
         }
 
         #endregion

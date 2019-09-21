@@ -8,7 +8,12 @@ namespace Lego.Ev3.BrickManager
 
         public static void Initialize()
         {
-            Mode = (Mode)Enum.Parse(typeof(Mode), Properties.Settings.Default.Mode);
+            Mode = Mode.BASIC;
+            try
+            {
+                Mode = (Mode)Enum.Parse(typeof(Mode), Properties.Settings.Default.Mode);
+            }
+            catch { }
         }
 
         public static void Save()
@@ -22,6 +27,5 @@ namespace Lego.Ev3.BrickManager
     {
         BASIC = 0,
         ADVANCED = 1,
-        EXPERT = 2,
     }
 }

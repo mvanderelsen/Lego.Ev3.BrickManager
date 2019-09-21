@@ -100,6 +100,12 @@
     <Compile Include="ConnectDialog.Designer.cs">
       <DependentUpon>ConnectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateEntryDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateEntryDialog.Designer.cs">
+      <DependentUpon>CreateEntryDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="DirectoryContent.cs" />
     <Compile Include="DirectoryContentPane.cs">
       <SubType>UserControl</SubType>
@@ -164,11 +170,17 @@
     <EmbeddedResource Include="ConnectDialog.resx">
       <DependentUpon>ConnectDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CreateEntryDialog.resx">
+      <DependentUpon>CreateEntryDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DirectoryContentPane.resx">
       <DependentUpon>DirectoryContentPane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExplorerWindow.resx">
       <DependentUpon>ExplorerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FolderTree.resx">
+      <DependentUpon>FolderTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Header.resx">
       <DependentUpon>Header.cs</DependentUpon>

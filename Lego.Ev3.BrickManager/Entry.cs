@@ -1,5 +1,4 @@
 ﻿using Lego.Ev3.Framework;
-using Lego.Ev3.Framework.Core;
 
 namespace Lego.Ev3.BrickManager
 {
@@ -9,41 +8,14 @@ namespace Lego.Ev3.BrickManager
 
         public bool IsPlayable { get; set; }
 
-        public bool IsDownloadable{ get; set; }
-
         public Entry(string path, EntryType type)
         {
             Type = type;
-            IsPlayable = path.EndsWith(".rsf");
-           
-            switch (UserSettings.Mode)
+            switch(type)
             {
-                case Mode.BASIC:
+                case EntryType.FILE:
                     {
-                        switch (path)
-                        {
-                            case "../prjs/BrkProg_SAVE":
-                            case "../prjs/BrkDL_SAVE":
-                                {
-                                    IsDownloadable = false;
-                                    break;
-                                }
-                            default:
-                                {
-                                    IsDownloadable = true;
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                case Mode.ADVANCED:
-                    {
-                        IsDownloadable = true;
-                        break;
-                    }
-                case Mode.EXPERT:
-                    {
-                        IsDownloadable = true;
+                        IsPlayable = path.EndsWith(".rsf");
                         break;
                     }
             }
@@ -58,6 +30,7 @@ namespace Lego.Ev3.BrickManager
         {
             return new Entry(directory.Path, EntryType.DIRECTORY);
         }
+
     }
 
     public enum EntryType

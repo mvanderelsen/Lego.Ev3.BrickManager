@@ -11,6 +11,10 @@ namespace Lego.Ev3.BrickManager
 
         public Directory CURRENT_DIRECTORY;
         public File CURRENT_FILE;
+
+        public Directory SELECTED_DIRECTORY;
+        public File SELECTED_FILE;
+
         private string LocalMachinePath;
 
         public ExplorerWindow()
@@ -32,6 +36,7 @@ namespace Lego.Ev3.BrickManager
         {
             Directory root = await FileExplorer.GetDirectory(FileExplorer.ROOT_PATH);
             CURRENT_DIRECTORY = root;
+            SELECTED_DIRECTORY = root;
             await folderTree.Initialize(root);
             await previewPane.Initialize(root);
             navigationBar.Initialize();
@@ -55,6 +60,7 @@ namespace Lego.Ev3.BrickManager
                     {
                         if (CURRENT_DIRECTORY.Path == directory.Path) return; // do not open again is already open
                         CURRENT_DIRECTORY = directory;
+                        SELECTED_DIRECTORY = directory;
                         statusBar.SetLoading();
                         ((Manager)Parent).UseWaitCursor = true;
                         DirectoryContent content = await DirectoryContent.Get(directory);
@@ -67,12 +73,15 @@ namespace Lego.Ev3.BrickManager
                     }
                 case ActionType.SELECT:
                     {
+                        SELECTED_DIRECTORY = directory;
                         previewPane.Set(directory, null);
                         break;
                     }
                 case ActionType.DOWNLOAD:
                     {
-                        await Download(directory);
+                        ((Manager)Parent).UseWaitCursor = true;
+                        await Download(SELECTED_DIRECTORY);
+                        ((Manager)Parent).UseWaitCursor = false;
                         break;
                     }
             }
@@ -83,16 +92,25 @@ namespace Lego.Ev3.BrickManager
         {
             switch (type)
             {
-                case ActionType.SELECT:
+                case ActionType.OPEN:
                     {
                         if (CURRENT_FILE?.Path == file.Path) return;
                         CURRENT_FILE = file;
+                        SELECTED_FILE = file;
+                        await previewPane.Set(file);
+                        break;
+                    }
+                case ActionType.SELECT:
+                    {
+                        SELECTED_FILE = file;
                         await previewPane.Set(file);
                         break;
                     }
                 case ActionType.DOWNLOAD:
                     {
-                        await Download(file);
+                        ((Manager)Parent).UseWaitCursor = true;
+                        await Download(SELECTED_FILE);
+                        ((Manager)Parent).UseWaitCursor = false;
                         break;
                     }
             }
@@ -130,15 +148,89 @@ namespace Lego.Ev3.BrickManager
                 Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
                 Properties.Settings.Default.Save();
 
-                await Download(directory, LocalMachinePath);
+                if (UserSettings.Mode == Mode.BASIC) await DownloadBasic(directory, LocalMachinePath);
+                else await DownloadAdvanced(directory, LocalMachinePath);
             }
         }
 
-        private async Task Download(Directory directory, string toLocalPath, bool isSubDirectory = false)
+        private async Task DownloadBasic(Directory directory, string toLocalPath)
         {
-            if (directory.Path == FileExplorer.SDCARD_PATH && UserSettings.Mode == Mode.BASIC && isSubDirectory) return;
-            if (directory.Path == FileExplorer.USBSTICK_PATH && UserSettings.Mode == Mode.BASIC && isSubDirectory) return;
-            if (!((Entry)directory).IsDownloadable) return;
+
+            string localPath = System.IO.Path.Combine(toLocalPath, directory.Name);
+            switch (directory.Path)
+            {
+                case FileExplorer.ROOT_PATH:
+                    {
+                        System.IO.Path.Combine(toLocalPath, Manager.Brick.Name);
+                        break;
+                    }
+                case FileExplorer.PROJECTS_PATH:
+                    {
+                        System.IO.Path.Combine(toLocalPath, "Drive");
+                        break;
+                    }
+                case FileExplorer.SDCARD_PATH:
+                    {
+                        System.IO.Path.Combine(toLocalPath, "SDCard");
+                        break;
+                    }
+            }
+
+            File[] files = await FileExplorer.GetFiles(directory.Path);
+            foreach (File file in files)
+            {
+
+                byte[] data = await file.Download();
+                if (data != null && data.Length > 0)
+                {
+                    string filePath = System.IO.Path.Combine(localPath, file.Name);
+                    using (System.IO.FileStream fs = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+                    {
+                        fs.Write(data, 0, data.Length);
+                    }
+                }
+
+            }
+
+            switch (directory.Path)
+            {
+                case FileExplorer.ROOT_PATH:
+                    {
+                        foreach (Directory dir in await Manager.Brick.Drive.GetDirectories())
+                        {
+                            await DownloadBasic(dir, localPath);
+                        }
+                        if (Manager.Brick.SDCard != null)
+                        {
+                            foreach (Directory dir in await Manager.Brick.SDCard.GetDirectories())
+                            {
+                                await DownloadBasic(dir, localPath);
+                            }
+                        }
+                        break;
+                    }
+                case FileExplorer.PROJECTS_PATH:
+                    {
+                        foreach (Directory dir in await Manager.Brick.Drive.GetDirectories())
+                        {
+                            await DownloadBasic(dir, localPath);
+                        }
+                        break;
+                    }
+                case FileExplorer.SDCARD_PATH:
+                    {
+                        foreach (Directory dir in await Manager.Brick.SDCard.GetDirectories())
+                        {
+                            await DownloadBasic(dir, localPath);
+                        }
+                        break;
+                    }
+            }
+        }
+
+
+        private async Task DownloadAdvanced(Directory directory, string toLocalPath)
+        {
 
             bool rootDownload = directory.Path == FileExplorer.ROOT_PATH;
             string localPath = (rootDownload) ? System.IO.Path.Combine(toLocalPath, Manager.Brick.Name) : System.IO.Path.Combine(toLocalPath, directory.Name);
@@ -147,7 +239,6 @@ namespace Lego.Ev3.BrickManager
             File[] files = await FileExplorer.GetFiles(directory.Path);
             foreach (File file in files)
             {
-                if (!((Entry)file).IsDownloadable) continue;
 
                 byte[] data = await file.Download();
                 if (data != null && data.Length > 0)
@@ -163,7 +254,7 @@ namespace Lego.Ev3.BrickManager
             Directory[] subDirectories = await FileExplorer.GetDirectories(directory.Path);
             foreach (Directory subDirectory in subDirectories)
             {
-                await Download(subDirectory, localPath, !rootDownload);
+                await DownloadAdvanced(subDirectory, localPath);
             }
         }
 

@@ -10,8 +10,9 @@ namespace Lego.Ev3.BrickManager
             InitializeComponent();
             comboBox.Items.Add(Mode.BASIC);
             comboBox.Items.Add(Mode.ADVANCED);
-            comboBox.Items.Add(Mode.EXPERT);
             comboBox.SelectedIndex = (int) UserSettings.Mode;
+            labelDisclaimer.Text = "Use with great care!\nDeleting or renaming firmware files lead\nto brick malfunction.";
+            labelDisclaimer.Visible = UserSettings.Mode == Mode.ADVANCED;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -24,6 +25,12 @@ namespace Lego.Ev3.BrickManager
                 DialogResult = DialogResult.OK;
             }
             else DialogResult = DialogResult.Cancel;
+        }
+
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Mode mode = (Mode)comboBox.SelectedItem;
+            labelDisclaimer.Visible = mode == Mode.ADVANCED;
         }
     }
 }
