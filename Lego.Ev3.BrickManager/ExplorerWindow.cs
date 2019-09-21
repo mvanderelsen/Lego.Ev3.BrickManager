@@ -43,6 +43,12 @@ namespace Lego.Ev3.BrickManager
             DirectoryContent content = await DirectoryContent.Get(root);
             directoryContentPane.Set(content);
             statusBar.Set(content.Info);
+
+            if (UserSettings.Mode == Mode.BASIC)
+            {
+                Directory drive = await FileExplorer.GetDirectory(FileExplorer.PROJECTS_PATH);
+                Execute(this, drive, ActionType.OPEN);
+            }
         }
 
         public void InitView()

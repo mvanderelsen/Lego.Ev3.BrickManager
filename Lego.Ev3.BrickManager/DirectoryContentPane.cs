@@ -178,35 +178,37 @@ namespace Lego.Ev3.BrickManager
 
         private void ShowContextMenu(ListViewItem item)
         {
+            ClearContextMenu();
+
             if (item != null && item.Tag != null)
             {
                 if (item.Tag is Directory)
                 {
-                    ShowContextMenu((Entry)SelectedDirectory);
+                    ShowContextMenu((Entry)SelectedDirectory, SelectedDirectory.Path);
                 }
                 else if (item.Tag is File)
                 {
-                    ShowContextMenu((Entry)SelectedFile);
+                    ShowContextMenu((Entry)SelectedFile, SelectedFile.Path);
                 }
             }
             else
             {
-                ClearContextMenu();
-
-                if (AllowNewOrUpload())
+                
+                if (SetContectMenuANewOrUpload())
                 {
                     contextMenuStrip.Show(Cursor.Position);
                 }
             }
         }
 
-        private bool AllowNewOrUpload()
+        private bool SetContectMenuANewOrUpload()
         {
+            string path = ((ExplorerWindow)Parent).CURRENT_DIRECTORY.Path;
             switch (UserSettings.Mode)
             {
                 case Mode.BASIC:
                     {
-                        switch (SelectedDirectory.Path)
+                        switch (path)
                         {
                             case FileExplorer.ROOT_PATH: return false;
                             case FileExplorer.SDCARD_PATH:
@@ -220,7 +222,7 @@ namespace Lego.Ev3.BrickManager
                                 }
                             default:
                                 {
-                                    if (SelectedDirectory.Path.StartsWith(FileExplorer.PROJECTS_PATH))
+                                    if (path.StartsWith(FileExplorer.PROJECTS_PATH))
                                     {
                                         uploadDirectoryToolStripMenuItem.Visible = false;
                                         newDirectoryToolStripMenuItem.Visible = false;
@@ -241,13 +243,46 @@ namespace Lego.Ev3.BrickManager
             }
         }
 
-        private void ShowContextMenu(Entry entry)
+        private void ShowContextMenu(Entry entry, string path)
         {
-            ClearContextMenu();
-
             downloadToolStripMenuItem.Visible = true;
             playToolStripMenuItem.Visible = entry.IsPlayable;
 
+            switch (UserSettings.Mode)
+            {
+                case Mode.BASIC:
+                    {
+                        switch (path)
+                        {
+                            case FileExplorer.ROOT_PATH:
+                            case FileExplorer.SDCARD_PATH:
+                            case FileExplorer.PROJECTS_PATH:
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    if (SelectedDirectory.Path.StartsWith(FileExplorer.PROJECTS_PATH))
+                                    {
+                                        renameToolStripMenuItem.Visible = true;
+                                        moveToolStripMenuItem.Visible = true;
+                                        toolStripSeparator.Visible = true;
+                                        deleteToolStripMenuItem.Visible = true;
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        renameToolStripMenuItem.Visible = true;
+                        moveToolStripMenuItem.Visible = true;
+                        toolStripSeparator.Visible = true;
+                        deleteToolStripMenuItem.Visible = true;
+                        break;
+                    }
+            }
 
             contextMenuStrip.Tag = entry.Type;
             contextMenuStrip.Show(Cursor.Position);
