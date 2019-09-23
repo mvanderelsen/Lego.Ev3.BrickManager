@@ -90,6 +90,50 @@ namespace Lego.Ev3.BrickManager
                         ((Manager)Parent).UseWaitCursor = false;
                         break;
                     }
+                case ActionType.CREATE_DIRECTORY:
+                    {
+                        using (CreateEntryDialog dialog = new CreateEntryDialog(CURRENT_DIRECTORY, EntryType.DIRECTORY, null))
+                        {
+                            if (dialog.ShowDialog() == DialogResult.OK)
+                            {
+                                string path = System.IO.Path.Combine(CURRENT_DIRECTORY.Path, dialog.EntryName);
+                                await FileExplorer.CreateDirectory(path);
+                                await folderTree.Refresh(CURRENT_DIRECTORY);
+                                Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                            }
+                        }
+                        break;
+                    }
+                case ActionType.DELETE:
+                    {
+                        if (MessageBox.Show("Are you sure you want to permanently delete this directory and all it's content?", "Delete directory", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            ((Manager)Parent).UseWaitCursor = true;
+                            await FileExplorer.DeleteDirectory(directory.Path, true);
+                            await folderTree.Refresh(CURRENT_DIRECTORY);
+                            Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                            ((Manager)Parent).UseWaitCursor = false;
+                        }
+                        break;
+                    }
+                case ActionType.REFRESH_DIRECTORY:
+                    {
+                        statusBar.SetLoading();
+                        ((Manager)Parent).UseWaitCursor = true;
+                        DirectoryContent content = await DirectoryContent.Get(CURRENT_DIRECTORY);
+                        directoryContentPane.Set(content);
+                        previewPane.Set(directory, content.Info);
+                        statusBar.Set(content.Info);
+                        ((Manager)Parent).UseWaitCursor = false;
+                        break;
+                    }
+                case ActionType.UPLOAD_DIRECTORY:
+                    {
+                        await UploadDirectory();
+                        await folderTree.Refresh(CURRENT_DIRECTORY);
+                        Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                        break;
+                    }
             }
         }
 
@@ -119,10 +163,63 @@ namespace Lego.Ev3.BrickManager
                         ((Manager)Parent).UseWaitCursor = false;
                         break;
                     }
+                case ActionType.UPLOAD_FILE:
+                    {
+                        await UpLoadFile();
+                        Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                        break;
+                    }
+                case ActionType.DELETE:
+                    {
+                        if (MessageBox.Show("Are you sure you want to permanently delete this file?", "Delete file", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            await FileExplorer.DeleteFile(file.Path);
+                            Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                        }
+                        break;
+                    }
             }
         }
 
+        #region upload
+        private async Task UploadDirectory()
+        {
+            folderBrowserDialog.SelectedPath = LocalMachinePath;
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                LocalMachinePath = folderBrowserDialog.SelectedPath;
+                Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
+                Properties.Settings.Default.Save();
 
+                using (TransferDialog dialog = new TransferDialog())
+                {
+                    Task task = dialog.UploadDirectory(CURRENT_DIRECTORY.Path, LocalMachinePath);
+                    dialog.ShowDialog();
+                    await task;
+                }
+            }
+        }
+
+        private async Task UpLoadFile()
+        {
+            openFileDialog.InitialDirectory = LocalMachinePath;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LocalMachinePath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
+                Properties.Settings.Default.Save();
+
+                using (TransferDialog dialog = new TransferDialog())
+                {
+                    Task task = dialog.UpLoadFile(CURRENT_DIRECTORY, openFileDialog.FileNames);
+                    dialog.ShowDialog();
+                    await task;
+                }
+
+
+            }
+        }
+        #endregion
 
         #region Download
         private async Task Download(File file)
@@ -136,16 +233,17 @@ namespace Lego.Ev3.BrickManager
                 Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
                 Properties.Settings.Default.Save();
 
-                byte[] data = await file.Download();
-                using (System.IO.FileStream fs = new System.IO.FileStream(saveFileDialog.FileName, System.IO.FileMode.Create))
+                using (TransferDialog dialog = new TransferDialog())
                 {
-                    fs.Write(data, 0, data.Length);
+                    Task task = dialog.Download(file, saveFileDialog.FileName);
+                    dialog.ShowDialog();
+                    await task;
                 }
             }
         }
 
 
-        private async Task Download(Directory directory)
+        public async Task Download(Directory directory)
         {
             folderBrowserDialog.SelectedPath = LocalMachinePath;
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -153,114 +251,12 @@ namespace Lego.Ev3.BrickManager
                 LocalMachinePath = folderBrowserDialog.SelectedPath;
                 Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
                 Properties.Settings.Default.Save();
-
-                if (UserSettings.Mode == Mode.BASIC) await DownloadBasic(directory, LocalMachinePath);
-                else await DownloadAdvanced(directory, LocalMachinePath);
-            }
-        }
-
-        private async Task DownloadBasic(Directory directory, string toLocalPath)
-        {
-
-            string localPath = System.IO.Path.Combine(toLocalPath, directory.Name);
-            switch (directory.Path)
-            {
-                case FileExplorer.ROOT_PATH:
-                    {
-                        System.IO.Path.Combine(toLocalPath, Manager.Brick.Name);
-                        break;
-                    }
-                case FileExplorer.PROJECTS_PATH:
-                    {
-                        System.IO.Path.Combine(toLocalPath, "Drive");
-                        break;
-                    }
-                case FileExplorer.SDCARD_PATH:
-                    {
-                        System.IO.Path.Combine(toLocalPath, "SDCard");
-                        break;
-                    }
-            }
-
-            File[] files = await FileExplorer.GetFiles(directory.Path);
-            foreach (File file in files)
-            {
-
-                byte[] data = await file.Download();
-                if (data != null && data.Length > 0)
+                using (TransferDialog dialog = new TransferDialog())
                 {
-                    string filePath = System.IO.Path.Combine(localPath, file.Name);
-                    using (System.IO.FileStream fs = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
-                    {
-                        fs.Write(data, 0, data.Length);
-                    }
+                    Task task =  dialog.Download(directory, LocalMachinePath);
+                    dialog.ShowDialog();
+                    await task;
                 }
-
-            }
-
-            switch (directory.Path)
-            {
-                case FileExplorer.ROOT_PATH:
-                    {
-                        foreach (Directory dir in await Manager.Brick.Drive.GetDirectories())
-                        {
-                            await DownloadBasic(dir, localPath);
-                        }
-                        if (Manager.Brick.SDCard != null)
-                        {
-                            foreach (Directory dir in await Manager.Brick.SDCard.GetDirectories())
-                            {
-                                await DownloadBasic(dir, localPath);
-                            }
-                        }
-                        break;
-                    }
-                case FileExplorer.PROJECTS_PATH:
-                    {
-                        foreach (Directory dir in await Manager.Brick.Drive.GetDirectories())
-                        {
-                            await DownloadBasic(dir, localPath);
-                        }
-                        break;
-                    }
-                case FileExplorer.SDCARD_PATH:
-                    {
-                        foreach (Directory dir in await Manager.Brick.SDCard.GetDirectories())
-                        {
-                            await DownloadBasic(dir, localPath);
-                        }
-                        break;
-                    }
-            }
-        }
-
-
-        private async Task DownloadAdvanced(Directory directory, string toLocalPath)
-        {
-
-            bool rootDownload = directory.Path == FileExplorer.ROOT_PATH;
-            string localPath = (rootDownload) ? System.IO.Path.Combine(toLocalPath, Manager.Brick.Name) : System.IO.Path.Combine(toLocalPath, directory.Name);
-            System.IO.Directory.CreateDirectory(localPath);
-
-            File[] files = await FileExplorer.GetFiles(directory.Path);
-            foreach (File file in files)
-            {
-
-                byte[] data = await file.Download();
-                if (data != null && data.Length > 0)
-                {
-                    string filePath = System.IO.Path.Combine(localPath, file.Name);
-                    using (System.IO.FileStream fs = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
-                    {
-                        fs.Write(data, 0, data.Length);
-                    }
-                }
-
-            }
-            Directory[] subDirectories = await FileExplorer.GetDirectories(directory.Path);
-            foreach (Directory subDirectory in subDirectories)
-            {
-                await DownloadAdvanced(subDirectory, localPath);
             }
         }
 

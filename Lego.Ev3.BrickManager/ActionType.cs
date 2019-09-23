@@ -9,7 +9,8 @@
         MOVE,
         SELECT,
         UPLOAD_FILE,
-        UPLOAD_DIR,
-        MAKEDIR,
+        UPLOAD_DIRECTORY,
+        CREATE_DIRECTORY,
+        REFRESH_DIRECTORY
     }
 }

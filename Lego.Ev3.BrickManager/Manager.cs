@@ -1,5 +1,6 @@
 ﻿using Lego.Ev3.Framework;
 using Lego.Ev3.Framework.Configuration;
+using Lego.Ev3.Framework.Core;
 using System;
 using System.Reflection;
 using System.Threading;

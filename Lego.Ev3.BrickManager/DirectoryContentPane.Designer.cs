@@ -37,6 +37,7 @@
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.moveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,12 +98,12 @@
             this.toolStripSeparator,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 186);
+            this.contextMenuStrip.Size = new System.Drawing.Size(129, 164);
             // 
             // downloadToolStripMenuItem
             // 
             this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.downloadToolStripMenuItem.Text = "Download";
             this.downloadToolStripMenuItem.Click += new System.EventHandler(this.DownloadToolStripMenuItem_Click);
             // 
@@ -113,14 +113,21 @@
             this.newDirectoryToolStripMenuItem,
             this.newFileToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // newDirectoryToolStripMenuItem
             // 
             this.newDirectoryToolStripMenuItem.Name = "newDirectoryToolStripMenuItem";
-            this.newDirectoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newDirectoryToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.newDirectoryToolStripMenuItem.Text = "Directory";
+            this.newDirectoryToolStripMenuItem.Click += new System.EventHandler(this.NewDirectoryToolStripMenuItem_Click);
+            // 
+            // newFileToolStripMenuItem
+            // 
+            this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
+            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.newFileToolStripMenuItem.Text = "File";
             // 
             // uploadToolStripMenuItem
             // 
@@ -128,7 +135,7 @@
             this.uploadDirectoryToolStripMenuItem,
             this.uploadFileToolStripMenuItem});
             this.uploadToolStripMenuItem.Name = "uploadToolStripMenuItem";
-            this.uploadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uploadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.uploadToolStripMenuItem.Text = "Upload";
             // 
             // uploadDirectoryToolStripMenuItem
@@ -136,12 +143,14 @@
             this.uploadDirectoryToolStripMenuItem.Name = "uploadDirectoryToolStripMenuItem";
             this.uploadDirectoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.uploadDirectoryToolStripMenuItem.Text = "Directory";
+            this.uploadDirectoryToolStripMenuItem.Click += new System.EventHandler(this.UploadDirectoryToolStripMenuItem_Click);
             // 
             // uploadFileToolStripMenuItem
             // 
             this.uploadFileToolStripMenuItem.Name = "uploadFileToolStripMenuItem";
             this.uploadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.uploadFileToolStripMenuItem.Text = "File";
+            this.uploadFileToolStripMenuItem.Text = "File(s)";
+            this.uploadFileToolStripMenuItem.Click += new System.EventHandler(this.UploadFileToolStripMenuItem_Click);
             // 
             // playToolStripMenuItem
             // 
@@ -149,51 +158,46 @@
             this.playOnComputerToolStripMenuItem,
             this.playOnBrickToolStripMenuItem});
             this.playToolStripMenuItem.Name = "playToolStripMenuItem";
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.playToolStripMenuItem.Text = "Play";
             // 
             // playOnComputerToolStripMenuItem
             // 
             this.playOnComputerToolStripMenuItem.Name = "playOnComputerToolStripMenuItem";
-            this.playOnComputerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playOnComputerToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.playOnComputerToolStripMenuItem.Text = "Play on computer";
             this.playOnComputerToolStripMenuItem.Click += new System.EventHandler(this.PlayOnComputerToolStripMenuItem_Click);
             // 
             // playOnBrickToolStripMenuItem
             // 
             this.playOnBrickToolStripMenuItem.Name = "playOnBrickToolStripMenuItem";
-            this.playOnBrickToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playOnBrickToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.playOnBrickToolStripMenuItem.Text = "Play on brick";
             this.playOnBrickToolStripMenuItem.Click += new System.EventHandler(this.PlayOnBrickToolStripMenuItem_Click);
             // 
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.renameToolStripMenuItem.Text = "Rename";
             // 
             // moveToolStripMenuItem
             // 
             this.moveToolStripMenuItem.Name = "moveToolStripMenuItem";
-            this.moveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.moveToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.moveToolStripMenuItem.Text = "Move";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(125, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
-            // 
-            // newFileToolStripMenuItem
-            // 
-            this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
-            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newFileToolStripMenuItem.Text = "File";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // DirectoryContentPane
             // 

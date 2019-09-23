@@ -106,8 +106,6 @@ namespace Lego.Ev3.BrickManager
             return $"{kb:0.0} KB";
         }
 
-
-        //TODO Fetch from resource file
         public static string ToString(FileType type)
         {
             switch (type)

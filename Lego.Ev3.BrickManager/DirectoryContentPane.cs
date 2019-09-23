@@ -11,6 +11,22 @@ namespace Lego.Ev3.BrickManager
         public event OnDirectoryAction DirectoryAction;
         public event OnFileAction FileAction;
 
+
+        private File SelectedFile
+        {
+            get { return ((ExplorerWindow)Parent).SELECTED_FILE; }
+        }
+
+        private Directory SelectedDirectory
+        {
+            get { return ((ExplorerWindow)Parent).SELECTED_DIRECTORY; }
+        }
+
+        private Directory CurrentDirectory
+        {
+            get { return ((ExplorerWindow)Parent).CURRENT_DIRECTORY; }
+        }
+
         public DirectoryContentPane()
         {
             InitializeComponent();
@@ -203,7 +219,7 @@ namespace Lego.Ev3.BrickManager
 
         private bool SetContectMenuANewOrUpload()
         {
-            string path = ((ExplorerWindow)Parent).CURRENT_DIRECTORY.Path;
+            string path = CurrentDirectory.Path;
             switch (UserSettings.Mode)
             {
                 case Mode.BASIC:
@@ -226,7 +242,9 @@ namespace Lego.Ev3.BrickManager
                                     {
                                         uploadDirectoryToolStripMenuItem.Visible = false;
                                         newDirectoryToolStripMenuItem.Visible = false;
-                                        newToolStripMenuItem.Visible = true;
+
+                                        newToolStripMenuItem.Visible = false;
+
                                         uploadToolStripMenuItem.Visible = true;
                                         return true;
                                     }
@@ -264,8 +282,6 @@ namespace Lego.Ev3.BrickManager
                                 {
                                     if (SelectedDirectory.Path.StartsWith(FileExplorer.PROJECTS_PATH))
                                     {
-                                        renameToolStripMenuItem.Visible = true;
-                                        moveToolStripMenuItem.Visible = true;
                                         toolStripSeparator.Visible = true;
                                         deleteToolStripMenuItem.Visible = true;
                                     }
@@ -276,8 +292,6 @@ namespace Lego.Ev3.BrickManager
                     }
                 default:
                     {
-                        renameToolStripMenuItem.Visible = true;
-                        moveToolStripMenuItem.Visible = true;
                         toolStripSeparator.Visible = true;
                         deleteToolStripMenuItem.Visible = true;
                         break;
@@ -302,19 +316,10 @@ namespace Lego.Ev3.BrickManager
             uploadDirectoryToolStripMenuItem.Visible = true;
             uploadFileToolStripMenuItem.Visible = true;
             newDirectoryToolStripMenuItem.Visible = true;
-            newFileToolStripMenuItem.Visible = true;
+            newFileToolStripMenuItem.Visible = false;
         }
 
 
-        private File SelectedFile
-        {
-            get { return ((ExplorerWindow)Parent).SELECTED_FILE; }
-        }
-
-        private Directory SelectedDirectory
-        {
-            get { return ((ExplorerWindow)Parent).SELECTED_DIRECTORY; }
-        }
 
         private void InvokeContextMenu(ActionType actionType)
         {
@@ -359,5 +364,24 @@ namespace Lego.Ev3.BrickManager
             InvokeContextMenu(ActionType.DOWNLOAD);
         }
 
+        private void NewDirectoryToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            DirectoryAction?.Invoke(this, null, ActionType.CREATE_DIRECTORY);
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            InvokeContextMenu(ActionType.DELETE);
+        }
+
+        private void UploadDirectoryToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            DirectoryAction?.Invoke(this, null, ActionType.UPLOAD_DIRECTORY);
+        }
+
+        private void UploadFileToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            FileAction?.Invoke(this, null, ActionType.UPLOAD_FILE);
+        }
     }
 }

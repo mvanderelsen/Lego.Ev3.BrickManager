@@ -142,5 +142,93 @@ namespace Lego.Ev3.BrickManager
                 }
             }
         }
+
+
+        public async Task Refresh(Directory directory)
+        {
+            tree.BeginUpdate();
+
+            TreeNode node = Find(directory);
+            if (node != null)
+            {
+                Directory[] directories;
+                switch (UserSettings.Mode)
+                {
+                    case Mode.BASIC:
+                        {
+                            switch (directory.Path)
+                            {
+                                case FileExplorer.PROJECTS_PATH:
+                                    {
+                                        directories = await Manager.Brick.Drive.GetDirectories();
+                                        break;
+                                    }
+                                case FileExplorer.SDCARD_PATH:
+                                    {
+                                        directories = await Manager.Brick.SDCard.GetDirectories();
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        //Should never get here
+                                        throw new InvalidOperationException(nameof(tree));
+                                    }
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            directories = await FileExplorer.GetDirectories(directory.Path);
+                            break;
+                        }
+
+                }
+
+                node.Nodes.Clear();
+                foreach (Directory dir in directories)
+                {
+                    node.Nodes.Add(ConvertToNode(dir));
+                }
+                
+                //int nodeCount = node.Nodes.Count;
+                //int ni = 0;
+                //for (int i = 0; i < dirs.Length; i++)
+                //{
+                //    if (i < nodeCount)
+                //    {
+                //        if (((Directory)node.Nodes[ni].Tag).Path != dirs[i].Path)
+                //        {
+                //            node.Nodes.Insert(i, ConvertToNode(dirs[i]));
+                //            break;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        node.Nodes.Add(ConvertToNode(dirs[i]));
+                //    }
+                //    ni++;
+                //}
+            }
+            tree.EndUpdate();
+
+        }
+
+        private TreeNode Find(Directory directory)
+        {
+            return FindNode(tree.Nodes[0], directory.Path);
+        }
+
+        private TreeNode FindNode(TreeNode tree, string path)
+        {
+            foreach (TreeNode node in tree.Nodes)
+            {
+                if (((Directory)node.Tag).Path == path)
+                {
+                    return node;
+                }
+                else FindNode(node, path);
+            }
+            return null;
+        }
     }
 }
