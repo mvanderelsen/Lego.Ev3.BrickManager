@@ -1,9 +1,6 @@
 ﻿using Lego.Ev3.Framework;
 using Lego.Ev3.Framework.Configuration;
-using Lego.Ev3.Framework.Core;
 using System;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +19,7 @@ namespace Lego.Ev3.BrickManager
             //init the brick
             BrickOptions options = new BrickOptions();
             options.DisablePowerUpSelfTest();
+            options.DisableEventMonitor();
             Brick = new Brick(options);
 
             //load the user settings
@@ -30,10 +28,7 @@ namespace Lego.Ev3.BrickManager
 
         public async Task Connect()
         {
-            //call connect but do not start an event monitor so pass false to internal connect
-            MethodInfo method = typeof(Brick).GetMethod("Connect", BindingFlags.Instance | BindingFlags.NonPublic, null, new Type[] { typeof(bool) }, null);
-            Task<bool> task = (Task<bool>)method.Invoke(Manager.Brick, new object[] { false });
-            bool isConnected = await task.ConfigureAwait(false);
+            bool isConnected = await Brick.Connect();
 
             if (isConnected)
             {
@@ -95,6 +90,16 @@ namespace Lego.Ev3.BrickManager
                     await explorerWindow.Initialize();
                     UseWaitCursor = false;
                 }
+            }
+        }
+
+        private async void DeviceManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (DeviceManager deviceManager = new DeviceManager())
+            {
+                Task task = deviceManager.Initialize();
+                deviceManager.ShowDialog();
+                await task;
             }
         }
     }

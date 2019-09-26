@@ -148,6 +148,18 @@ namespace Lego.Ev3.BrickManager
                         CURRENT_FILE = file;
                         SELECTED_FILE = file;
                         await previewPane.Set(file);
+                        Entry entry = new Entry(file.Path, EntryType.FILE);
+                        if (entry.IsOpenEnabled)
+                        {
+                            switch (file.Type)
+                            {
+                                case FileType.SoundFile:
+                                    {
+                                        Manager.Brick.Sound.Play((SoundFile)file, 50);
+                                        break;
+                                    }
+                            }
+                        }
                         break;
                     }
                 case ActionType.SELECT:

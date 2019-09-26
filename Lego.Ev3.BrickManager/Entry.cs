@@ -3,10 +3,12 @@
 namespace Lego.Ev3.BrickManager
 {
     public class Entry
-    {
+    { 
         public EntryType Type { get; set; }
 
         public bool IsPlayable { get; set; }
+
+        public bool IsOpenEnabled { get; set; }
 
         public Entry(string path, EntryType type)
         {
@@ -15,7 +17,16 @@ namespace Lego.Ev3.BrickManager
             {
                 case EntryType.FILE:
                     {
-                        IsPlayable = path.EndsWith(".rsf");
+                        FileType fileType = GetFileType(path);
+                        switch (fileType)
+                        {
+                            case FileType.SoundFile:
+                                {
+                                    IsPlayable = true;
+                                    IsOpenEnabled = true;
+                                    break;
+                                }
+                        }
                         break;
                     }
             }
@@ -31,7 +42,20 @@ namespace Lego.Ev3.BrickManager
             return new Entry(directory.Path, EntryType.DIRECTORY);
         }
 
+        public FileType GetFileType(string path)
+        {
+            string extension = System.IO.Path.GetExtension(path);
+            switch (extension)
+            {
+                case ".rsf": return FileType.SoundFile;
+                default: return FileType.SystemFile;
+            }
+        }
+
     }
+
+
+
 
     public enum EntryType
     {
