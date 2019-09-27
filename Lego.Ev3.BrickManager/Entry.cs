@@ -26,6 +26,11 @@ namespace Lego.Ev3.BrickManager
                                     IsOpenEnabled = true;
                                     break;
                                 }
+                            case FileType.TextFile:
+                                {
+                                    IsOpenEnabled = true;
+                                    break;
+                                }
                         }
                         break;
                     }
@@ -48,6 +53,7 @@ namespace Lego.Ev3.BrickManager
             switch (extension)
             {
                 case ".rsf": return FileType.SoundFile;
+                case ".rtf": return FileType.TextFile;
                 default: return FileType.SystemFile;
             }
         }

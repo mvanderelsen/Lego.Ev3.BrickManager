@@ -170,6 +170,15 @@
     <Compile Include="StatusBar.Designer.cs">
       <DependentUpon>StatusBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextFileEditor.Designer.cs">
+      <DependentUpon>TextFileEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextFileEditorLineNumbers.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TransferDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,6 +234,9 @@
     </Compile>
     <EmbeddedResource Include="StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextFileEditor.resx">
+      <DependentUpon>TextFileEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferDialog.resx">
       <DependentUpon>TransferDialog.cs</DependentUpon>

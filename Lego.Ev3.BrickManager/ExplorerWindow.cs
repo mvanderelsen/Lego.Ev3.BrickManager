@@ -144,10 +144,12 @@ namespace Lego.Ev3.BrickManager
             {
                 case ActionType.OPEN:
                     {
-                        if (CURRENT_FILE?.Path == file.Path) return;
-                        CURRENT_FILE = file;
-                        SELECTED_FILE = file;
-                        await previewPane.Set(file);
+                        if (CURRENT_FILE?.Path != file.Path)
+                        {
+                            CURRENT_FILE = file;
+                            SELECTED_FILE = file;
+                            await previewPane.Set(file);
+                        }
                         Entry entry = new Entry(file.Path, EntryType.FILE);
                         if (entry.IsOpenEnabled)
                         {
@@ -156,6 +158,17 @@ namespace Lego.Ev3.BrickManager
                                 case FileType.SoundFile:
                                     {
                                         Manager.Brick.Sound.Play((SoundFile)file, 50);
+                                        break;
+                                    }
+                                case FileType.TextFile:
+                                    {
+                                        using (TextFileEditor textFileEditor = new TextFileEditor())
+                                        {
+                                            textFileEditor.TextFile = (TextFile)file;
+                                            textFileEditor.Directory = CURRENT_DIRECTORY;
+                                            textFileEditor.ShowDialog();
+                                            if(textFileEditor.RefreshDirectory) Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                                        }
                                         break;
                                     }
                             }
@@ -187,6 +200,16 @@ namespace Lego.Ev3.BrickManager
                         {
                             await FileExplorer.DeleteFile(file.Path);
                             Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                        }
+                        break;
+                    }
+                case ActionType.NEW_RTF_FILE:
+                    {
+                        using (TextFileEditor textFileEditor = new TextFileEditor())
+                        {
+                            textFileEditor.Directory = CURRENT_DIRECTORY;
+                            textFileEditor.ShowDialog();
+                            if (textFileEditor.RefreshDirectory) Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
                         }
                         break;
                     }

@@ -243,7 +243,7 @@ namespace Lego.Ev3.BrickManager
                                         uploadDirectoryToolStripMenuItem.Visible = false;
                                         newDirectoryToolStripMenuItem.Visible = false;
 
-                                        newToolStripMenuItem.Visible = false;
+                                        newToolStripMenuItem.Visible = true;
 
                                         uploadToolStripMenuItem.Visible = true;
                                         return true;
@@ -315,8 +315,15 @@ namespace Lego.Ev3.BrickManager
 
             uploadDirectoryToolStripMenuItem.Visible = true;
             uploadFileToolStripMenuItem.Visible = true;
+
+            
             newDirectoryToolStripMenuItem.Visible = true;
-            newFileToolStripMenuItem.Visible = false;
+            newFileToolStripMenuItem.Visible = true;
+
+            //disable for now
+            toolStripSeparator1.Visible = false;
+            audioFileToolStripMenuItem.Visible = false;
+            imageFileToolStripMenuItem.Visible = false;
         }
 
 
@@ -382,6 +389,21 @@ namespace Lego.Ev3.BrickManager
         private void UploadFileToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             FileAction?.Invoke(this, null, ActionType.UPLOAD_FILE);
+        }
+
+        private void TextFileToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            FileAction?.Invoke(this, null, ActionType.NEW_RTF_FILE);
+        }
+
+        private void AudioFileToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            FileAction?.Invoke(this, null, ActionType.NEW_AUDIO_FILE);
+        }
+
+        private void ImageFileToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            FileAction?.Invoke(this, null, ActionType.NEW_IMAGE_FILE);
         }
     }
 }
