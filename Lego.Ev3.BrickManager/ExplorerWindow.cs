@@ -260,7 +260,7 @@ namespace Lego.Ev3.BrickManager
         private async Task Download(File file)
         {
             saveFileDialog.InitialDirectory = LocalMachinePath;
-            saveFileDialog.FileName = file.Name;
+            saveFileDialog.FileName = file.FileName;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {

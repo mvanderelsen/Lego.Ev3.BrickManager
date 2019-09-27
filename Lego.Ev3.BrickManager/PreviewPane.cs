@@ -136,7 +136,7 @@ namespace Lego.Ev3.BrickManager
         {
             Clear();
 
-            labelName.Text = file.Name;
+            labelName.Text = file.FileName;
             labelType.Text = DirectoryContent.ToString(file.Type);
             string additionalInfo = null;
             switch (file.Type)

@@ -121,7 +121,7 @@ namespace Lego.Ev3.BrickManager
                     {
                         //if (UseFilter && !file.Name.EndsWith(FilterValue)) continue;
 
-                        ListViewItem item = new ListViewItem(file.Name);
+                        ListViewItem item = new ListViewItem(file.FileName);
                         item.Tag = file;
                         switch (file.Type)
                         {

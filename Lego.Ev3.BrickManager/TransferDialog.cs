@@ -118,7 +118,7 @@ namespace Lego.Ev3.BrickManager
                     byte[] data = await file.Download();
                     if (data != null && data.Length > 0)
                     {
-                        string filePath = System.IO.Path.Combine(localPath, file.Name);
+                        string filePath = System.IO.Path.Combine(localPath, file.FileName);
                         using (System.IO.FileStream fs = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
                         {
                             fs.Write(data, 0, data.Length);
@@ -183,7 +183,7 @@ namespace Lego.Ev3.BrickManager
                 byte[] data = await file.Download();
                 if (data != null && data.Length > 0)
                 {
-                    string filePath = System.IO.Path.Combine(localPath, file.Name);
+                    string filePath = System.IO.Path.Combine(localPath, file.FileName);
                     using (System.IO.FileStream fs = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
                     {
                         fs.Write(data, 0, data.Length);
