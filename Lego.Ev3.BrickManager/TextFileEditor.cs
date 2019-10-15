@@ -62,7 +62,7 @@ namespace Lego.Ev3.BrickManager
 
             if (TextFile != null)
             {
-                await FileExplorer.UploadFile(data, Directory.Path, $"{fileName}.rtf");
+                await BrickExplorer.UploadFile(data, Directory.Path, $"{fileName}.rtf");
                 if (isNewName)
                 {
                     await TextFile.Delete();
@@ -70,7 +70,7 @@ namespace Lego.Ev3.BrickManager
             }
             else
             {
-                await FileExplorer.UploadFile(data, Directory.Path, $"{fileName}.rtf");
+                await BrickExplorer.UploadFile(data, Directory.Path, $"{fileName}.rtf");
             }
 
             TextHasChanged = false;

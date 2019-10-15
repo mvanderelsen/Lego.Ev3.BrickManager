@@ -34,7 +34,7 @@ namespace Lego.Ev3.BrickManager
         #region initialize
         public async Task Initialize()
         {
-            Directory root = await FileExplorer.GetDirectory(FileExplorer.ROOT_PATH);
+            Directory root = await BrickExplorer.GetDirectory(BrickExplorer.ROOT_PATH);
             CURRENT_DIRECTORY = root;
             SELECTED_DIRECTORY = root;
             await folderTree.Initialize(root);
@@ -46,7 +46,7 @@ namespace Lego.Ev3.BrickManager
 
             if (UserSettings.Mode == Mode.BASIC)
             {
-                Directory drive = await FileExplorer.GetDirectory(FileExplorer.PROJECTS_PATH);
+                Directory drive = await BrickExplorer.GetDirectory(BrickExplorer.PROJECTS_PATH);
                 Execute(this, drive, ActionType.OPEN);
             }
         }
@@ -97,7 +97,7 @@ namespace Lego.Ev3.BrickManager
                             if (dialog.ShowDialog() == DialogResult.OK)
                             {
                                 string path = System.IO.Path.Combine(CURRENT_DIRECTORY.Path, dialog.EntryName);
-                                await FileExplorer.CreateDirectory(path);
+                                await BrickExplorer.CreateDirectory(path);
                                 await folderTree.Refresh(CURRENT_DIRECTORY);
                                 Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
                             }
@@ -109,7 +109,7 @@ namespace Lego.Ev3.BrickManager
                         if (MessageBox.Show("Are you sure you want to permanently delete this directory and all it's content?", "Delete directory", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
                             ((Manager)Parent).UseWaitCursor = true;
-                            await FileExplorer.DeleteDirectory(directory.Path, true);
+                            await BrickExplorer.DeleteDirectory(directory.Path, true);
                             await folderTree.Refresh(CURRENT_DIRECTORY);
                             Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
                             ((Manager)Parent).UseWaitCursor = false;
@@ -198,7 +198,7 @@ namespace Lego.Ev3.BrickManager
                     {
                         if (MessageBox.Show("Are you sure you want to permanently delete this file?", "Delete file", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
-                            await FileExplorer.DeleteFile(file.Path);
+                            await BrickExplorer.DeleteFile(file.Path);
                             Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
                         }
                         break;

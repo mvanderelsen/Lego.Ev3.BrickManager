@@ -31,25 +31,25 @@ namespace Lego.Ev3.BrickManager
                     {
                         switch (directory.Path)
                         {
-                            case FileExplorer.ROOT_PATH:
+                            case BrickExplorer.ROOT_PATH:
                                 {
                                     List<Directory> dirs = new List<Directory>();
-                                    dirs.Add(await FileExplorer.GetDirectory(FileExplorer.PROJECTS_PATH));
+                                    dirs.Add(await BrickExplorer.GetDirectory(BrickExplorer.PROJECTS_PATH));
                                     if (Manager.Brick.SDCard != null)
                                     {
-                                        dirs.Add(await FileExplorer.GetDirectory(FileExplorer.SDCARD_PATH));
+                                        dirs.Add(await BrickExplorer.GetDirectory(BrickExplorer.SDCARD_PATH));
                                     }
                                     content.Directories = dirs.ToArray();
                                     content.Info.ItemCount = content.Directories.Length;
                                     break;
                                 }
-                            case FileExplorer.PROJECTS_PATH:
+                            case BrickExplorer.PROJECTS_PATH:
                                 {
                                     content.Directories = await Manager.Brick.Drive.GetDirectories();
                                     content.Info.ItemCount = content.Directories.Length;
                                     break;
                                 }
-                            case FileExplorer.SDCARD_PATH:
+                            case BrickExplorer.SDCARD_PATH:
                                 {
                                     content.Directories = await Manager.Brick.SDCard.GetDirectories();
                                     content.Info.ItemCount = content.Directories.Length;
@@ -58,7 +58,7 @@ namespace Lego.Ev3.BrickManager
                             default:
                                 {
                                     //only get files
-                                    content.Files = await FileExplorer.GetFiles(directory.Path);
+                                    content.Files = await BrickExplorer.GetFiles(directory.Path);
                                     foreach (File file in content.Files)
                                     {
                                         content.Info.TotalByteSize += file.Size;
@@ -71,9 +71,9 @@ namespace Lego.Ev3.BrickManager
                     }
                 default:
                     {
-                        
-                        content.Directories = await FileExplorer.GetDirectories(directory.Path);
-                        content.Files = await FileExplorer.GetFiles(directory.Path);
+                        Framework.Core.DirectoryContent dc = await BrickExplorer.GetDirectoryContent(directory.Path);
+                        content.Directories = dc.Directories;
+                        content.Files = dc.Files;
                         foreach (File file in content.Files)
                         {
                             content.Info.TotalByteSize += file.Size;
@@ -85,7 +85,7 @@ namespace Lego.Ev3.BrickManager
         }
 
 
-        public static string ToFileSize(int size)
+        public static string ToFileSize(long size)
         {
             if (size == 0) return "0 KB";
             if (size < 1024) return "1 KB";
@@ -93,7 +93,7 @@ namespace Lego.Ev3.BrickManager
             return $"{kb} KB";
         }
 
-        public static string ToByteFileSize(int size)
+        public static string ToByteFileSize(long size)
         {
             if (size == 0) return "0 KB";
             if (size < 1024) return $"{size} bytes";

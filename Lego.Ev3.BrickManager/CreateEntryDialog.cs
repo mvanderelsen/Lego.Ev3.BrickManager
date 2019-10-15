@@ -1,6 +1,7 @@
 ﻿using Lego.Ev3.Framework;
 using Lego.Ev3.Framework.Core;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Lego.Ev3.BrickManager
@@ -40,12 +41,11 @@ namespace Lego.Ev3.BrickManager
                         try
                         {
                             string name = textBoxName.Text.Trim();
-                            FileExplorer.GetValidateDirectoryName(name);
-                            if (UserSettings.Mode == Mode.BASIC && _directory.Path == FileExplorer.PROJECTS_PATH)
+                            if (UserSettings.Mode == Mode.BASIC && _directory.Path == BrickExplorer.PROJECTS_PATH)
                             {
                                 isValid = !FileSystem.IsReservedDirectoryName(name);
                             }
-                            else isValid = true;
+                            else isValid = Regex.IsMatch(name, "[ -~]");
                         }
                         catch
                         {

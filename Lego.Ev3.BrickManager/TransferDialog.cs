@@ -30,14 +30,14 @@ namespace Lego.Ev3.BrickManager
             System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(path);
             string brickPath = $"{directoryPath}{directoryInfo.Name}/";
 
-            await FileExplorer.CreateDirectory(brickPath);
+            await BrickExplorer.CreateDirectory(brickPath);
 
             foreach (System.IO.FileInfo file in directoryInfo.GetFiles())
             {
-                if (FileExplorer.IsRobotFile(file.FullName))
+                if (BrickExplorer.IsRobotFile(file.FullName))
                 {
                     labelContent.Text = file.FullName;
-                    await FileExplorer.UploadFile(file.FullName, brickPath, file.Name);
+                    await BrickExplorer.UploadFile(file.FullName, brickPath, file.Name);
                 }
             }
 
@@ -56,7 +56,7 @@ namespace Lego.Ev3.BrickManager
             foreach (string path in paths)
             {
                 labelContent.Text = path;
-                if (FileExplorer.IsRobotFile(path)) await directory.UploadFile(path);
+                if (BrickExplorer.IsRobotFile(path)) await directory.UploadFile(path);
             }
             Close();
         }
@@ -90,17 +90,17 @@ namespace Lego.Ev3.BrickManager
             string localPath = System.IO.Path.Combine(toLocalPath, directory.Name);
             switch (directory.Path)
             {
-                case FileExplorer.ROOT_PATH:
+                case BrickExplorer.ROOT_PATH:
                     {
                         localPath = System.IO.Path.Combine(toLocalPath, Manager.Brick.Name);
                         break;
                     }
-                case FileExplorer.PROJECTS_PATH:
+                case BrickExplorer.PROJECTS_PATH:
                     {
                         localPath = System.IO.Path.Combine(toLocalPath, "Drive");
                         break;
                     }
-                case FileExplorer.SDCARD_PATH:
+                case BrickExplorer.SDCARD_PATH:
                     {
                         localPath = System.IO.Path.Combine(toLocalPath, "SDCard");
                         break;
@@ -109,9 +109,9 @@ namespace Lego.Ev3.BrickManager
 
             System.IO.Directory.CreateDirectory(localPath);
 
-            if (directory.Path != FileExplorer.ROOT_PATH)
+            if (directory.Path != BrickExplorer.ROOT_PATH)
             {
-                File[] files = await FileExplorer.GetFiles(directory.Path);
+                File[] files = await BrickExplorer.GetFiles(directory.Path);
                 foreach (File file in files)
                 {
                     labelContent.Text = file.Path;
@@ -130,7 +130,7 @@ namespace Lego.Ev3.BrickManager
 
             switch (directory.Path)
             {
-                case FileExplorer.ROOT_PATH:
+                case BrickExplorer.ROOT_PATH:
                     {
                         string drivePath = System.IO.Path.Combine(localPath, "Drive");
                         System.IO.Directory.CreateDirectory(drivePath);
@@ -149,7 +149,7 @@ namespace Lego.Ev3.BrickManager
                         }
                         break;
                     }
-                case FileExplorer.PROJECTS_PATH:
+                case BrickExplorer.PROJECTS_PATH:
                     {
                         foreach (Directory dir in await Manager.Brick.Drive.GetDirectories())
                         {
@@ -157,7 +157,7 @@ namespace Lego.Ev3.BrickManager
                         }
                         break;
                     }
-                case FileExplorer.SDCARD_PATH:
+                case BrickExplorer.SDCARD_PATH:
                     {
                         foreach (Directory dir in await Manager.Brick.SDCard.GetDirectories())
                         {
@@ -172,11 +172,11 @@ namespace Lego.Ev3.BrickManager
         {
             labelAction.Text = "Downloading...";
             labelContent.Text = directory.Path;
-            bool rootDownload = directory.Path == FileExplorer.ROOT_PATH;
+            bool rootDownload = directory.Path == BrickExplorer.ROOT_PATH;
             string localPath = (rootDownload) ? System.IO.Path.Combine(toLocalPath, Manager.Brick.Name) : System.IO.Path.Combine(toLocalPath, directory.Name);
             System.IO.Directory.CreateDirectory(localPath);
 
-            File[] files = await FileExplorer.GetFiles(directory.Path);
+            File[] files = await BrickExplorer.GetFiles(directory.Path);
             foreach (File file in files)
             {
                 labelContent.Text = file.Path;
@@ -191,7 +191,7 @@ namespace Lego.Ev3.BrickManager
                 }
 
             }
-            Directory[] subDirectories = await FileExplorer.GetDirectories(directory.Path);
+            Directory[] subDirectories = await BrickExplorer.GetDirectories(directory.Path);
             foreach (Directory subDirectory in subDirectories)
             {
                 await DownloadAdvanced(subDirectory, localPath);

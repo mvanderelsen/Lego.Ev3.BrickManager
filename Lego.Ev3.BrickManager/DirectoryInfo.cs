@@ -6,6 +6,6 @@ namespace Lego.Ev3.BrickManager
     {
         public int ItemCount { get; set; }
 
-        public int TotalByteSize { get; set; }
+        public long TotalByteSize { get; set; }
     }
 }

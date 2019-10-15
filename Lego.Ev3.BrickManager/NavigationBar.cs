@@ -18,7 +18,7 @@ namespace Lego.Ev3.BrickManager
             _home = new ToolStripButton
             {
                 Image = new Icon(Properties.Resources.Brick, new Size(16, 16)).ToBitmap(),
-                Tag = FileExplorer.ROOT_PATH,
+                Tag = BrickExplorer.ROOT_PATH,
             };
             _home.Click += ToolStripButtonClicked;
         }
@@ -34,7 +34,7 @@ namespace Lego.Ev3.BrickManager
         {
             ToolStripButton button = (ToolStripButton)sender;
             string path = button.Tag.ToString();
-            Directory directory = await FileExplorer.GetDirectory(path);
+            Directory directory = await BrickExplorer.GetDirectory(path);
             DirectoryAction?.Invoke(this, directory, ActionType.OPEN);
         }
 

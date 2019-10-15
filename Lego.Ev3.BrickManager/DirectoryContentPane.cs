@@ -66,13 +66,13 @@ namespace Lego.Ev3.BrickManager
             listView.BeginUpdate();
             listView.Items.Clear();
 
-            if (UserSettings.Mode == Mode.BASIC && content.Path == FileExplorer.ROOT_PATH)
+            if (UserSettings.Mode == Mode.BASIC && content.Path == BrickExplorer.ROOT_PATH)
             {
                 foreach (Directory directory in content.Directories)
                 {
                     switch (directory.Path)
                     {
-                        case FileExplorer.PROJECTS_PATH:
+                        case BrickExplorer.PROJECTS_PATH:
                             {
                                 ListViewItem item = new ListViewItem("Drive")
                                 {
@@ -84,7 +84,7 @@ namespace Lego.Ev3.BrickManager
                                 listView.Items.Add(item);
                                 break;
                             }
-                        case FileExplorer.SDCARD_PATH:
+                        case BrickExplorer.SDCARD_PATH:
                             {
                                 ListViewItem item = new ListViewItem("SD Card")
                                 {
@@ -226,9 +226,9 @@ namespace Lego.Ev3.BrickManager
                     {
                         switch (path)
                         {
-                            case FileExplorer.ROOT_PATH: return false;
-                            case FileExplorer.SDCARD_PATH:
-                            case FileExplorer.PROJECTS_PATH:
+                            case BrickExplorer.ROOT_PATH: return false;
+                            case BrickExplorer.SDCARD_PATH:
+                            case BrickExplorer.PROJECTS_PATH:
                                 {
                                     uploadFileToolStripMenuItem.Visible = false;
                                     newFileToolStripMenuItem.Visible = false;
@@ -238,7 +238,7 @@ namespace Lego.Ev3.BrickManager
                                 }
                             default:
                                 {
-                                    if (path.StartsWith(FileExplorer.PROJECTS_PATH))
+                                    if (path.StartsWith(BrickExplorer.PROJECTS_PATH))
                                     {
                                         uploadDirectoryToolStripMenuItem.Visible = false;
                                         newDirectoryToolStripMenuItem.Visible = false;
@@ -272,15 +272,15 @@ namespace Lego.Ev3.BrickManager
                     {
                         switch (path)
                         {
-                            case FileExplorer.ROOT_PATH:
-                            case FileExplorer.SDCARD_PATH:
-                            case FileExplorer.PROJECTS_PATH:
+                            case BrickExplorer.ROOT_PATH:
+                            case BrickExplorer.SDCARD_PATH:
+                            case BrickExplorer.PROJECTS_PATH:
                                 {
                                     break;
                                 }
                             default:
                                 {
-                                    if (SelectedDirectory.Path.StartsWith(FileExplorer.PROJECTS_PATH))
+                                    if (SelectedDirectory.Path.StartsWith(BrickExplorer.PROJECTS_PATH))
                                     {
                                         toolStripSeparator.Visible = true;
                                         deleteToolStripMenuItem.Visible = true;

@@ -75,7 +75,7 @@ namespace Lego.Ev3.BrickManager
 
             node = new TreeNode("Drive")
             {
-                Tag = await FileExplorer.GetDirectory(FileExplorer.PROJECTS_PATH),
+                Tag = await BrickExplorer.GetDirectory(BrickExplorer.PROJECTS_PATH),
                 ImageIndex = 2,
                 SelectedImageIndex = 2
             };
@@ -87,7 +87,7 @@ namespace Lego.Ev3.BrickManager
             {
                 node = new TreeNode("SD Card")
                 {
-                    Tag = await FileExplorer.GetDirectory(FileExplorer.SDCARD_PATH),
+                    Tag = await BrickExplorer.GetDirectory(BrickExplorer.SDCARD_PATH),
                     ImageIndex = 3,
                     SelectedImageIndex = 3
                 };
@@ -99,7 +99,7 @@ namespace Lego.Ev3.BrickManager
 
         private async Task AdvancedTree(TreeNode parent)
         {
-            Directory[] directories = await FileExplorer.GetDirectories(((Directory)parent.Tag).Path);
+            Directory[] directories = await BrickExplorer.GetDirectories(((Directory)parent.Tag).Path);
             foreach (Directory directory in directories)
             {
                 TreeNode node = ConvertToNode(directory);
@@ -158,12 +158,12 @@ namespace Lego.Ev3.BrickManager
                         {
                             switch (directory.Path)
                             {
-                                case FileExplorer.PROJECTS_PATH:
+                                case BrickExplorer.PROJECTS_PATH:
                                     {
                                         directories = await Manager.Brick.Drive.GetDirectories();
                                         break;
                                     }
-                                case FileExplorer.SDCARD_PATH:
+                                case BrickExplorer.SDCARD_PATH:
                                     {
                                         directories = await Manager.Brick.SDCard.GetDirectories();
                                         break;
@@ -178,7 +178,7 @@ namespace Lego.Ev3.BrickManager
                         }
                     default:
                         {
-                            directories = await FileExplorer.GetDirectories(directory.Path);
+                            directories = await BrickExplorer.GetDirectories(directory.Path);
                             break;
                         }
 

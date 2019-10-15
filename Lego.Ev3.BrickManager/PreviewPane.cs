@@ -56,18 +56,18 @@ namespace Lego.Ev3.BrickManager
                     {
                         switch (directory.Path)
                         {
-                            case FileExplorer.ROOT_PATH:
+                            case BrickExplorer.ROOT_PATH:
                                 {
                                     SetRoot();
                                     break;
                                 }
-                            case FileExplorer.PROJECTS_PATH:
+                            case BrickExplorer.PROJECTS_PATH:
                                 {
                                     labelName.Text = "Drive";
                                     icon.Image = new Icon(Properties.Resources.Disk, new Size(64, 64)).ToBitmap();
                                     break;
                                 }
-                            case FileExplorer.SDCARD_PATH:
+                            case BrickExplorer.SDCARD_PATH:
                                 {
                                     labelName.Text = "SD Card";
                                     icon.Image = new Icon(Properties.Resources.SdCard, new Size(64, 64)).ToBitmap();
@@ -85,7 +85,7 @@ namespace Lego.Ev3.BrickManager
                     {
                         switch (directory.Path)
                         {
-                            case FileExplorer.ROOT_PATH:
+                            case BrickExplorer.ROOT_PATH:
                                 {
                                     SetRoot();
                                     break;
