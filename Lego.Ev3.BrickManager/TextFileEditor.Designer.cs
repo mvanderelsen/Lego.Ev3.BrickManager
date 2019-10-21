@@ -198,7 +198,6 @@
             this.Text = "Robot Text File (*.rtf)";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TextFileEditor_FormClosing);
-            this.Load += new System.EventHandler(this.TextFileEditor_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);

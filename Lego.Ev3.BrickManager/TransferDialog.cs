@@ -61,7 +61,15 @@ namespace Lego.Ev3.BrickManager
             Close();
         }
 
-
+        public async Task UpLoadImage(Directory directory, string path)
+        {
+            labelAction.Text = "Uploading...";
+            labelContent.Text = path;
+            byte[] data = System.IO.File.ReadAllBytes(path);
+            byte[] rgf = FileConverter.BitmapToRGF(data);
+            await directory.UploadFile(rgf, FileType.GraphicFile, path);
+            Close();
+        }
 
         public async Task Download(File file, string path)
         {

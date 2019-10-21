@@ -15,6 +15,9 @@ namespace Lego.Ev3.BrickManager
         public Directory SELECTED_DIRECTORY;
         public File SELECTED_FILE;
 
+        private const string ROBOT_FILE_FILTER = "Robot Files (*.rgf, *.rbf, *.rsf, *.rdf, *.rtf, *.rpf, *.rcf, *.raf)|*.rgf;*.rbf;*.rsf;*.rdf;*.rtf;*.rpf;*.rcf;*.raf";
+        private const string IMAGE_FILE_FILTER = "Image Files (*.jpg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+
         private string LocalMachinePath;
 
         public ExplorerWindow()
@@ -26,7 +29,7 @@ namespace Lego.Ev3.BrickManager
             navigationBar.DirectoryAction += Execute;
             directoryContentPane.FileAction += Execute;
 
-            openFileDialog.Filter = "Robot Files (*.rgf, *.rbf, *.rsf, *.rdf, *.rtf, *.rpf, *.rcf, *.raf)|*.rgf;*.rbf;*.rsf;*.rdf;*.rtf;*.rpf;*.rcf;*.raf";
+            openFileDialog.Filter = ROBOT_FILE_FILTER;
             openFileDialog.Multiselect = true;
             openFileDialog.FileName = "";
         }
@@ -164,7 +167,7 @@ namespace Lego.Ev3.BrickManager
                                     {
                                         using (TextFileEditor textFileEditor = new TextFileEditor())
                                         {
-                                            textFileEditor.TextFile = (TextFile)file;
+                                            await textFileEditor.Initialize((TextFile)file);
                                             textFileEditor.Directory = CURRENT_DIRECTORY;
                                             textFileEditor.ShowDialog();
                                             if(textFileEditor.RefreshDirectory) Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
@@ -207,14 +210,23 @@ namespace Lego.Ev3.BrickManager
                     {
                         using (TextFileEditor textFileEditor = new TextFileEditor())
                         {
+                            await textFileEditor.Initialize();
                             textFileEditor.Directory = CURRENT_DIRECTORY;
                             textFileEditor.ShowDialog();
                             if (textFileEditor.RefreshDirectory) Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
                         }
                         break;
                     }
+                case ActionType.NEW_IMAGE_FILE: 
+                    {
+                        await UploadImage();
+                        Execute(this, CURRENT_DIRECTORY, ActionType.REFRESH_DIRECTORY);
+                        break;
+                    }
             }
         }
+
+
 
         #region upload
         private async Task UploadDirectory()
@@ -238,6 +250,7 @@ namespace Lego.Ev3.BrickManager
         private async Task UpLoadFile()
         {
             openFileDialog.InitialDirectory = LocalMachinePath;
+            openFileDialog.Filter = ROBOT_FILE_FILTER;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 LocalMachinePath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
@@ -250,8 +263,25 @@ namespace Lego.Ev3.BrickManager
                     dialog.ShowDialog();
                     await task;
                 }
+            }
+        }
 
+        private async Task UploadImage()
+        {
+            openFileDialog.InitialDirectory = LocalMachinePath;
+            openFileDialog.Filter = IMAGE_FILE_FILTER;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LocalMachinePath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                Properties.Settings.Default.LocalMachinePath = LocalMachinePath;
+                Properties.Settings.Default.Save();
 
+                using (TransferDialog dialog = new TransferDialog())
+                {
+                    Task task = dialog.UpLoadImage(CURRENT_DIRECTORY, openFileDialog.FileName);
+                    dialog.ShowDialog();
+                    await task;
+                }
             }
         }
         #endregion

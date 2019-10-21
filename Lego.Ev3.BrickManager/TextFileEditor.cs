@@ -10,7 +10,7 @@ namespace Lego.Ev3.BrickManager
     public partial class TextFileEditor : Form
     {
         private const char LINE = '\n';
-        public TextFile TextFile { get; set; }
+        public TextFile TextFile { get; private set; }
 
         private string originalFileName;
 
@@ -89,8 +89,9 @@ namespace Lego.Ev3.BrickManager
             Close();
         }
 
-        private async void TextFileEditor_Load(object sender, EventArgs e)
+        public async Task Initialize(TextFile textFile = null) 
         {
+            TextFile = textFile;
             if (TextFile != null)
             {
                 originalFileName = System.IO.Path.GetFileNameWithoutExtension(TextFile.FileName);

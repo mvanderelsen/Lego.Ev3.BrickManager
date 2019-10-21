@@ -210,14 +210,14 @@ namespace Lego.Ev3.BrickManager
             else
             {
                 
-                if (SetContectMenuANewOrUpload())
+                if (SetContectMenuNewOrUpload())
                 {
                     contextMenuStrip.Show(Cursor.Position);
                 }
             }
         }
 
-        private bool SetContectMenuANewOrUpload()
+        private bool SetContectMenuNewOrUpload()
         {
             string path = CurrentDirectory.Path;
             switch (UserSettings.Mode)
@@ -320,10 +320,9 @@ namespace Lego.Ev3.BrickManager
             newDirectoryToolStripMenuItem.Visible = true;
             newFileToolStripMenuItem.Visible = true;
 
-            //disable for now
-            toolStripSeparator1.Visible = false;
+            toolStripSeparator1.Visible = true;
             audioFileToolStripMenuItem.Visible = false;
-            imageFileToolStripMenuItem.Visible = false;
+            imageFileToolStripMenuItem.Visible = true;
         }
 
 
