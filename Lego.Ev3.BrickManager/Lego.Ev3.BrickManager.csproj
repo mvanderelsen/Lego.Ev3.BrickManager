@@ -24,13 +24,8 @@
 		<Content Include="Images\Background.jpg" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+		<PackageReference Include="Ev3.Framework" Version="1.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="9.0.6" />
-	</ItemGroup>
-	<ItemGroup>
-		<Reference Include="Lego.Ev3.Framework">
-			<HintPath>..\..\Lego.Ev3.Framework\Lego.Ev3.Framework\bin\Release\net9.0\Lego.Ev3.Framework.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">

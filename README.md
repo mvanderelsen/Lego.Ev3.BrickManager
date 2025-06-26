@@ -9,7 +9,6 @@ Deleting firmware files will lead to brick malfunction. so use with great care!
 [Releases](https://github.com/mvanderelsen/Lego.Ev3.BrickManager/releases/)
 
 ## Prerequisites
-* Clone of Lego.Ev3.Framework repository and add reference
 * Microsoft Visual Studio Installer Projects
 
 ## Use Cases
