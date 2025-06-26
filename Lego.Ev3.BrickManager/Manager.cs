@@ -17,7 +17,7 @@ namespace Lego.Ev3.BrickManager
             InitializeComponent();
 
             //init the brick
-            BrickOptions options = new BrickOptions();
+            BrickOptions options = new();
             options.DisablePowerUpSelfTest();
             options.DisableEventMonitor();
             Brick = new Brick(options);
@@ -42,7 +42,7 @@ namespace Lego.Ev3.BrickManager
             else
             {
                 //show dialog and reconnect on OK
-                using (ConnectDialog connectDialog = new ConnectDialog())
+                using (ConnectDialog connectDialog = new())
                 {
                     if (connectDialog.ShowDialog() == DialogResult.OK) await Connect();
                     else Close();

@@ -17,6 +17,8 @@ namespace Lego.Ev3.BrickManager
         public DeviceManager()
         {
             InitializeComponent();
+            Width = 494;
+            Height = 355;
             buttonSave.Visible = false; //TODO enable saving brick config json
             checkBoxFull.Visible = false;
         }

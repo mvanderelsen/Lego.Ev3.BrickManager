@@ -11,9 +11,12 @@ namespace Lego.Ev3.BrickManager
             Mode = Mode.BASIC;
             try
             {
-                Mode = (Mode)Enum.Parse(typeof(Mode), Properties.Settings.Default.Mode);
+                Mode = Enum.Parse<Mode>(Properties.Settings.Default.Mode);
             }
-            catch { }
+            catch 
+            {
+                Save();
+            }
         }
 
         public static void Save()

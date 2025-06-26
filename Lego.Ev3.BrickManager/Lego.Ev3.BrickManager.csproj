@@ -1,275 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9F254F0-EDF9-44DC-B79C-58F3F9CED875}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>Lego.Ev3.BrickManager</RootNamespace>
-    <AssemblyName>Lego.Ev3.BrickManager</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Icons\Ev3Framework.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Lego.Ev3.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lego.Ev3.Framework\Lego.Ev3.Framework\bin\Debug\netstandard2.0\Lego.Ev3.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.3.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.6.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.6.0\lib\net461\System.Drawing.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ActionDelegates.cs" />
-    <Compile Include="ActionType.cs" />
-    <Compile Include="ConnectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ConnectDialog.Designer.cs">
-      <DependentUpon>ConnectDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CreateEntryDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateEntryDialog.Designer.cs">
-      <DependentUpon>CreateEntryDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeviceManager.Designer.cs">
-      <DependentUpon>DeviceManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DirectoryContent.cs" />
-    <Compile Include="DirectoryContentPane.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DirectoryContentPane.Designer.cs">
-      <DependentUpon>DirectoryContentPane.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DirectoryInfo.cs" />
-    <Compile Include="Entry.cs" />
-    <Compile Include="ExplorerWindow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ExplorerWindow.Designer.cs">
-      <DependentUpon>ExplorerWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileContent.cs" />
-    <Compile Include="FolderTree.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FolderTree.Designer.cs">
-      <DependentUpon>FolderTree.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Header.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Header.Designer.cs">
-      <DependentUpon>Header.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Manager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manager.Designer.cs">
-      <DependentUpon>Manager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NavigationBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="NavigationBar.Designer.cs">
-      <DependentUpon>NavigationBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PreviewPane.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PreviewPane.Designer.cs">
-      <DependentUpon>PreviewPane.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatusBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StatusBar.Designer.cs">
-      <DependentUpon>StatusBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TextFileEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TextFileEditor.Designer.cs">
-      <DependentUpon>TextFileEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TextFileEditorLineNumbers.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TransferDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TransferDialog.Designer.cs">
-      <DependentUpon>TransferDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserSettings.cs" />
-    <Compile Include="UserSettingsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserSettingsDialog.Designer.cs">
-      <DependentUpon>UserSettingsDialog.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="ConnectDialog.resx">
-      <DependentUpon>ConnectDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CreateEntryDialog.resx">
-      <DependentUpon>CreateEntryDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeviceManager.resx">
-      <DependentUpon>DeviceManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DirectoryContentPane.resx">
-      <DependentUpon>DirectoryContentPane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExplorerWindow.resx">
-      <DependentUpon>ExplorerWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FolderTree.resx">
-      <DependentUpon>FolderTree.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Header.resx">
-      <DependentUpon>Header.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Manager.resx">
-      <DependentUpon>Manager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NavigationBar.resx">
-      <DependentUpon>NavigationBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PreviewPane.resx">
-      <DependentUpon>PreviewPane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="StatusBar.resx">
-      <DependentUpon>StatusBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TextFileEditor.resx">
-      <DependentUpon>TextFileEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TransferDialog.resx">
-      <DependentUpon>TransferDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserSettingsDialog.resx">
-      <DependentUpon>UserSettingsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Icons\Brick.ico" />
-    <Content Include="Icons\Disk.ico" />
-    <Content Include="Icons\Ev3Framework.ico" />
-    <Content Include="Icons\File.ico" />
-    <Content Include="Icons\Folder.ico" />
-    <Content Include="Icons\Rgf.ico" />
-    <Content Include="Icons\Rsf.ico" />
-    <Content Include="Icons\Rtf.ico" />
-    <Content Include="Icons\SdCard.ico" />
-    <Content Include="Images\Arrow.png" />
-    <Content Include="Images\Background.jpg" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>Icons\Ev3Framework.ico</ApplicationIcon>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="App.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Icons\Brick.ico" />
+		<Content Include="Icons\Disk.ico" />
+		<Content Include="Icons\Ev3Framework.ico" />
+		<Content Include="Icons\File.ico" />
+		<Content Include="Icons\Folder.ico" />
+		<Content Include="Icons\Rgf.ico" />
+		<Content Include="Icons\Rsf.ico" />
+		<Content Include="Icons\Rtf.ico" />
+		<Content Include="Icons\SdCard.ico" />
+		<Content Include="Images\Arrow.png" />
+		<Content Include="Images\Background.jpg" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.6" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="Lego.Ev3.Framework">
+			<HintPath>..\..\Lego.Ev3.Framework\Lego.Ev3.Framework\bin\Release\net9.0\Lego.Ev3.Framework.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
 </Project>

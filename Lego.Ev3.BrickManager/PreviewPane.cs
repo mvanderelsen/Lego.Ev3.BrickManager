@@ -157,7 +157,8 @@ namespace Lego.Ev3.BrickManager
                     {
                         icon.Image = new Icon(Properties.Resources.Rgf, new Size(64, 64)).ToBitmap();
                         byte[] data = await file.Download();
-                        Bitmap bitmap = FileConverter.RGFtoBitmap(data, Color.FromArgb(73, 74, 75));
+
+                        Bitmap bitmap = RgfConverter.RGFtoBitmap(data, Color.FromArgb(73, 74, 75));
                         int width = data[0];
                         int height = data[1];
                         previewImage.Image = bitmap;
@@ -172,7 +173,7 @@ namespace Lego.Ev3.BrickManager
                     }
             }
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             if (UserSettings.Mode == Mode.BASIC)
             {
                 sb.AppendLine($"Size: {DirectoryContent.ToFileSize(file.Size)}");

@@ -1,6 +1,7 @@
 ﻿using Lego.Ev3.Framework;
 using Lego.Ev3.Framework.Core;
 using System;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +19,7 @@ namespace Lego.Ev3.BrickManager
 
         public bool RefreshDirectory = false;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Directory Directory { get; set; }
         public TextFileEditor()
         {

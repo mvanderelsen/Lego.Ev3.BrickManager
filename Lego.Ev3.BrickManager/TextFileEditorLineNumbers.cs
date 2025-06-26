@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Lego.Ev3.BrickManager
@@ -178,6 +174,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this property to automatically resize the control (and reposition it if needed).")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool AutoSizing
         {
             get { return zAutoSizing; }
@@ -191,6 +188,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this property to enable LineNumbers for the chosen RichTextBox.")]
         [System.ComponentModel.Category("Add LineNumbers to")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public RichTextBox ParentRichTextBox
         {
             get { return zParent; }
@@ -210,6 +208,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this property to dock the LineNumbers to a chosen side of the chosen RichTextBox.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public LineNumberDockSide DockSide
         {
             get { return zDockSide; }
@@ -223,6 +222,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this property to enable the control to act as an overlay ontop of the RichTextBox.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool _SeeThroughMode_
         {
             get { return zSeeThroughMode; }
@@ -235,6 +235,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("BorderLines are shown on all sides of the LineNumber control.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Show_BorderLines
         {
             get { return zBorderLines_Show; }
@@ -246,6 +247,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BorderLines_Color
         {
             get { return zBorderLines_Color; }
@@ -257,6 +259,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float BorderLines_Thickness
         {
             get { return zBorderLines_Thickness; }
@@ -268,6 +271,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Drawing.Drawing2D.DashStyle BorderLines_Style
         {
             get { return zBorderLines_Style; }
@@ -282,6 +286,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("GridLines are the horizontal divider-lines shown above each LineNumber.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Show_GridLines
         {
             get { return zGridLines_Show; }
@@ -293,6 +298,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color GridLines_Color
         {
             get { return zGridLines_Color; }
@@ -304,6 +310,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float GridLines_Thickness
         {
             get { return zGridLines_Thickness; }
@@ -315,6 +322,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Drawing.Drawing2D.DashStyle GridLines_Style
         {
             get { return zGridLines_Style; }
@@ -329,6 +337,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("MarginLines are shown on the Left or Right (or both in Height-mode) of the LineNumber control.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Show_MarginLines
         {
             get { return zMarginLines_Show; }
@@ -340,6 +349,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public LineNumberDockSide MarginLines_Side
         {
             get { return zMarginLines_Side; }
@@ -351,6 +361,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color MarginLines_Color
         {
             get { return zMarginLines_Color; }
@@ -362,6 +373,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float MarginLines_Thickness
         {
             get { return zMarginLines_Thickness; }
@@ -373,6 +385,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Drawing.Drawing2D.DashStyle MarginLines_Style
         {
             get { return zMarginLines_Style; }
@@ -387,6 +400,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("The BackgroundGradient is a gradual blend of two colors, shown in the back of each LineNumber's item-area.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Show_BackgroundGradient
         {
             get { return zGradient_Show; }
@@ -398,6 +412,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BackgroundGradient_AlphaColor
         {
             get { return zGradient_StartColor; }
@@ -409,6 +424,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BackgroundGradient_BetaColor
         {
             get { return zGradient_EndColor; }
@@ -420,6 +436,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Drawing.Drawing2D.LinearGradientMode BackgroundGradient_Direction
         {
             get { return zGradient_Direction; }
@@ -431,6 +448,7 @@ namespace Lego.Ev3.BrickManager
         }
 
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Show_LineNrs
         {
             get { return zLineNumbers_Show; }
@@ -443,6 +461,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this to set whether the LineNumbers are allowed to spill out of their item-area, or should be clipped by it.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool LineNrs_ClippedByItemRectangle
         {
             get { return zLineNumbers_ClipByItemRectangle; }
@@ -455,6 +474,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this to set whether the LineNumbers should have leading zeroes (based on the total amount of textlines).")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool LineNrs_LeadingZeroes
         {
             get { return zLineNumbers_ShowLeadingZeroes; }
@@ -468,6 +488,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this to set whether the LineNumbers should be shown as hexadecimal values.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool LineNrs_AsHexadecimal
         {
             get { return zLineNumbers_ShowAsHexadecimal; }
@@ -481,6 +502,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this property to manually reposition the LineNumbers, relative to their current location.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Size LineNrs_Offset
         {
             get { return zLineNumbers_Offset; }
@@ -493,6 +515,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this to align the LineNumbers to a chosen corner (or center) within their item-area.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Drawing.ContentAlignment LineNrs_Alignment
         {
             get { return zLineNumbers_Alignment; }
@@ -505,6 +528,7 @@ namespace Lego.Ev3.BrickManager
 
         [System.ComponentModel.Description("Use this to apply Anti-Aliasing to the LineNumbers (high quality). Some fonts will look better without it, though.")]
         [System.ComponentModel.Category("Additional Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool LineNrs_AntiAlias
         {
             get { return zLineNumbers_AntiAlias; }

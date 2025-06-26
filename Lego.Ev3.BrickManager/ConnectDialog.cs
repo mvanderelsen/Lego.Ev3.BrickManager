@@ -7,6 +7,8 @@ namespace Lego.Ev3.BrickManager
         public ConnectDialog()
         {
             InitializeComponent();
+            Height = 210;
+            Width = 477;
         }
     }
 }
